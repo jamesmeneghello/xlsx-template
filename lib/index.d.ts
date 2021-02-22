@@ -15,10 +15,6 @@ export interface NamedTable{
     root: etree.Element;
 }
 
-namespace XlsxTemplate {
-
-}
-
 interface OutputByType {
     base64: string;
     uint8array: Uint8Array;
@@ -44,14 +40,14 @@ interface ReferenceAddress
     row : number;
 }
 
-class XlsxTemplate
+export class XlsxTemplate
 {
     public readonly sharedStrings: string[];
     protected readonly workbook: etree.ElementTree;
     public readonly archive: JSZip | null;
     protected readonly workbookPath: string;
     protected readonly calcChainPath?: string;
-    public readonly sharedStringsLookup: { [string]: number };
+    public readonly sharedStringsLookup: { [key: string]: number };
 
     constructor(data? : Buffer, option? : object);
     public deleteSheet(sheetName : string) : this;
@@ -86,7 +82,7 @@ class XlsxTemplate
     protected loadSheetRels(sheetFilename : string) : { rels : any};
     protected loadDrawing(sheet : any, sheetFilename : string, rels : any) : { drawing : any};
     protected writeDrawing(drawing : any);
-    protected moveAllImages(drawing : any, fromRow : int, nbRow : int);
+    protected moveAllImages(drawing : any, fromRow : number, nbRow : number);
     protected loadTables(sheet : any, sheetFilename : any) : any;
     protected writeTables(tables : any) : void;
     protected substituteHyperlinks(sheetFilename : any, substitutions : any) : void;
@@ -104,21 +100,19 @@ class XlsxTemplate
     protected pushDown(workbook : etree.ElementTree, sheets : any, tables : any, currentRow : any, numRows : any) : any;
 
     //Insert for insert_image
-    protected getWidthCell(numCol : int, sheet : etree.ElementTree) : float;
+    protected getWidthCell(numCol : number, sheet : etree.ElementTree) : number;
     protected getWidthMergeCell(mergeCell : etree.ElementTree, sheet : etree.ElementTree) : Float32Array
-    protected getHeightCell(numRow : int, sheet : etree.ElementTree) : float;
+    protected getHeightCell(numRow : number, sheet : etree.ElementTree) : number;
     protected getHeightMergeCell(mergeCell : etree.ElementTree, sheet : etree.ElementTree) : Float32Array
     protected getNbRowOfMergeCell(mergeCell : etree.ElementTree) : Int16Array;
-    protected pixels(pixels : float) : Int16Array;
-    protected columnWidthToEMUs(width : float) : Int16Array;
-    protected rowHeightToEMUs(height : float) : Int16Array;
+    protected pixels(pixels : number) : Int16Array;
+    protected columnWidthToEMUs(width : number) : Int16Array;
+    protected rowHeightToEMUs(height : number) : Int16Array;
     protected findMaxFileId(fileNameRegex : string, idRegex : string) : Int16Array;
     protected cellInMergeCells(cell : etree.ElementTree, mergeCell : etree.ElementTree) : boolean;
     protected isUrl(str : string) : boolean;
     protected toArrayBuffer(buffer : Buffer) : ArrayBuffer;
     protected imageToBuffer(imageObj : any) : Buffer;
-    protected findMaxId(element : etree.ElementTree, tag : string, attr : string, idRegex : string) : int;
+    protected findMaxId(element : etree.ElementTree, tag : string, attr : string, idRegex : string) : number;
 }
 
-export as namespace XlsxTemplate;
-export = XlsxTemplate;
